@@ -11,6 +11,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
+        hot: true,
         contentBase: path.join(__dirname, 'dist')
     },
     module: {
@@ -19,6 +20,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html',
             filename: 'index.html'
-        })
+        }),
+        new webpack.HotModuleReplacementPlugin()
     ],
 }
