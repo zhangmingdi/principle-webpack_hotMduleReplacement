@@ -1,4 +1,4 @@
-
+import './client'
 console.log('kjshkjdshkhskjhsakjhs');
 
 const root = document.getElementById('root')

@@ -1,6 +1,8 @@
 const path = require('path')
 const express = require('express')
 const mime = require('mime')
+
+// 操作内存文件
 const MemoryFileSystem = require('memory-fs')
 const webpack = require('webpack')
 
@@ -37,10 +39,10 @@ class Server {
         compiler.outputFileSystem = fs
         function middleware(req, res, next) {
             const filename = path.join(config.output.path, req.url.slice(1));
-            console.log('filename', filename);
             const stat = fs.statSync(filename);
             //判断这个文件是否存在
             if (stat.isFile()) {
+                //读取内存中打包代码 速度比读取磁盘的打包代码还要快
                 const content = fs.readFileSync(filename)
                 const contentType = mime.getType(filename)
                 res.setHeader('Content-Type', contentType)
@@ -57,6 +59,8 @@ class Server {
         let io = require('socket.io')(this.server)
         io.on('connection', (socket) => {
             sockets.push(socket)
+            socket.emit('hash', lasthash)
+            socket.emit('ok')
         })
     }
 
